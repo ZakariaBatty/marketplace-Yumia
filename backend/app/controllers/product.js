@@ -1,4 +1,6 @@
 const Product = require('../models/product.model');
+// require validations
+const { productValidation } = require('../validations/validations');
 
 // add New Product
 const addNewProduct = async (req, res) => {

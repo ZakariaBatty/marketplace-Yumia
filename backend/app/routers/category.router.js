@@ -9,3 +9,6 @@ const {
 } = require('../controllers/categorie');
 
 router.post('/add/Category', addNewCategory);
+
+
+module.exports = router;

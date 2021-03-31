@@ -1,4 +1,4 @@
-require('dotenv').config({path: './app/config/.env'});
+require('dotenv').config({ path: './app/config/.env' });
 const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const expressJwt = require('express-jwt');
@@ -34,26 +34,28 @@ const register = (req, res) => {
 
 // auth
 
-const signin =  (req, res) => {
-  // get user for check if find 
-    User.findOne({email:req.body.email}, (err, user) => {
-
-      if(err || !user) res.status(400).json({ error: err, message: 'Acune donnée trovée'});
-      const correct = bcrypt.compareSync(req.body.password, user.password);
-        if(!correct) res.status(400).json({error : "Email and password doesnot match"});
-        const token = jwt.sign({_id:user._id},process.env.JWT_SECRET);
-        res.cookie('t', token,{
-          expires: new Date() + 9999,
-        });
-
- return res.json({
-   token,
-   user,
- })
-    })
-}
-
-const 
+const signin = (req, res) => {
+  // get user for check if find
+  User.findOne({ email: req.body.email }, (err, user) => {
+    // check if err or !user
+    if (err || !user)
+      res.status(400).json({ error: err, message: 'Acune donnée trovée' });
+    // check if password correct
+    const correct = bcrypt.compareSync(req.body.password, user.password);
+    if (!correct)
+      res.status(400).json({ error: 'Email and password doesnot match' });
+    // genér token
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+    // stock token in cookie
+    res.cookie('t', token, {
+      expires: new Date() + 9999,
+    });
+    return res.json({
+      token,
+      user,
+    });
+  });
+};
 
 //getAlluser
 const getAlluser = async (req, res) => {
@@ -69,7 +71,7 @@ const getAlluser = async (req, res) => {
 };
 
 //getAllliveror
-const getAlluser = async (req, res) => {
+const getAllliveror = async (req, res) => {
   try {
     const user = await User.find({ where: { role: 'liveror' } });
     res
@@ -84,4 +86,6 @@ const getAlluser = async (req, res) => {
 module.exports = {
   register,
   getAlluser,
+  signin,
+  getAllliveror,
 };

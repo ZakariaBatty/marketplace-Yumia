@@ -1,9 +1,11 @@
 const Order = require('../models/order.model');
+// require validations
+const { orderValidation } = require('../validations/validations');
 
 // insert order
 const NewOrder = async (req, res) => {
   // validate error
-  const { error } = OrderValidation(req.body);
+  const { error } = orderValidation(req.body);
   if (error) res.status(400).json({ error: error.details[0].message });
   const { fuulName, product, quantity, price, total, status } = req.body;
   const order = new Order({

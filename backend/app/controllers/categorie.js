@@ -1,5 +1,5 @@
 const Categorie = require('../models/categorie.model');
-const  categoryValidation  = require('../validations/validations');
+const { categoryValidation } = require('../validations/validations');
 
 // add Categorie
 const addNewCategory = async (req, res) => {
@@ -9,8 +9,8 @@ const addNewCategory = async (req, res) => {
   // New Categororie
   const categorie = new Categorie({ ...req.body });
   try {
-    const saved = await categorie.save();
-    res.json({ error: null, categorie: saved });
+    const category = await categorie.save();
+    res.json({ error: null, categorie: category });
   } catch (error) {
     res.status(400).json({ error: error });
   }
